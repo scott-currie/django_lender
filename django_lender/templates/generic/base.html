@@ -4,6 +4,11 @@
     {% block title %}{% endblock title %}
   </head>
   <body>
+    <nav class="nav">
+      <ul class="nav_items">
+      <li><a href="{% url "home" %}">Home</a></li>
+      </ul>
+    </nav>
     {% block content %}{% endblock content %}
   </body>
 </html>
