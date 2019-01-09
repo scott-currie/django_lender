@@ -4,7 +4,8 @@ from django.db import models
 class Book(models.Model):
     """Represents a book in the system.
     """
-    cover_image = models.CharField(max_length=256)
+    cover_image = models.ImageField(
+        upload_to=None, height_field=None, width_field=None, max_length=None)
     title = models.CharField(max_length=256)
     author = models.CharField(max_length=256)
     year = models.IntegerField()
