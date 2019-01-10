@@ -4,6 +4,20 @@
     {% block title %}{% endblock title %}
   </head>
   <body>
+    <nav class="nav">
+      <ul class="nav_items">
+      <li><a href="{% url "home" %}">Home</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url "logout" %}">Log Out</a></li>
+      <li><a href="{% url "book_list" %}">Books</a></li>
+      {% if user.is_superuser %}
+      <li><a href="{% url "admin:index" %}">Admin</a></li>
+      {% endif %}
+      {% else %}
+      <li><a href="{% url "login" %}">Sign In</a></li>
+      {% endif %}
+      </ul>
+    </nav>
     {% block content %}{% endblock content %}
   </body>
 </html>

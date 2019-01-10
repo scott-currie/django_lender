@@ -1,29 +1,112 @@
 from datetime import datetime
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from .models import Book
+from django_lender.views import home_view
+from .views import book_detail_view, book_list_view
 
 
 class TestBookModel(TestCase):
-    """
+    """Test class for running tests on Book objects.
     """
 
     def setUp(self):
-        """
+        """Set up some Book objects to serve as data for the test cases.
+
+        :input: None
+        :return: None
         """
         american_gods = {
-            'cover_image': 'http://books.google.com/books/content?id=cLhVjQGs83QC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+            'cover_image': '',
             'title': "American Gods",
             'author': 'Neil Gaiman',
             'year': 2002,
             'status': 'available',
-            'date_added': datetime.date(2019, 1, 1),
-            'last_borrowed': datetime.date(2019, 1, 5)
+            'date_added': datetime(2019, 1, 1),
+            'last_borrowed': datetime(2019, 1, 5)
         }
 
-        book_1 = Book.objects.create(cover_image=american_gods['cover_image'],
-                                     title=american_gods['title'],
-                                     author=american_gods['author'],
-                                     year=american_gods['year'],
-                                     status=american_gods['status'],
-                                     date_added=american_gods['date_added'],
-                                     last_borrowed=american_gods['last_borrowed'])
+        Book.objects.create(cover_image=american_gods['cover_image'],
+                            title=american_gods['title'],
+                            author=american_gods['author'],
+                            year=american_gods['year'],
+                            status=american_gods['status'],
+                            date_added=american_gods['date_added'],
+                            last_borrowed=american_gods['last_borrowed'])
+
+    def test_book_title(self):
+        """Test that a book retrieved from setUp has expected title."""
+        book = Book.objects.get(title='American Gods')
+        self.assertEqual(book.title, 'American Gods')
+
+
+class TestBookViews(TestCase):
+    """Class for testing the views that display books."""
+
+    def setUp(self):
+        """Run some setup for tests that follow."""
+        self.request = RequestFactory()
+        american_gods = {
+            'cover_image': '',
+            'title': "American Gods",
+            'author': 'Neil Gaiman',
+            'year': 2002,
+            'status': 'available',
+            'date_added': datetime(2019, 1, 1),
+            'last_borrowed': datetime(2019, 1, 5)
+        }
+
+        Book.objects.create(cover_image=american_gods['cover_image'],
+                            title=american_gods['title'],
+                            author=american_gods['author'],
+                            year=american_gods['year'],
+                            status=american_gods['status'],
+                            date_added=american_gods['date_added'],
+                            last_borrowed=american_gods['last_borrowed'])
+
+    def test_book_list_view_status_code(self):
+        """Test book_list view returns 200."""
+        request = self.request.get('')
+        response = book_list_view(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_book_list_view_content(self):
+        """Test book_list view returns expected HTML."""
+        request = self.request.get('')
+        response = book_list_view(request)
+        self.assertIn(b'<h2>Book List</h2>', response.content)
+        self.assertIn(b'<p>Neil Gaiman</p>', response.content)
+
+    def test_book_detail_view_status_code(self):
+        """Test book_detail_view."""
+        request = self.request.get('')
+        book = Book.objects.get(title='American Gods')
+        response = book_detail_view(request, pk=book.id)
+        self.assertEqual(response.status_code, 200)
+
+    def test_book_detail_view_content(self):
+        """Test book_detail_view."""
+        request = self.request.get('')
+        book = Book.objects.get(title='American Gods')
+        response = book_detail_view(request, pk=book.id)
+        self.assertIn(b'<h3>American Gods</h3>', response.content)
+
+
+class TestHomeView(TestCase):
+    """Class to test generic views.
+    """
+
+    def setUp(self):
+        """Do some setup for following tests."""
+        self.request = RequestFactory()
+
+    def test_home_view_status_code(self):
+        """Check status code on home_view."""
+        request = self.request.get('')
+        response = home_view(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_home_view_content(self):
+        """Check expected HTML in response from home_view."""
+        request = self.request.get('')
+        response = home_view(request)
+        self.assertIn(b'Welcome to Book Lender', response.content)
