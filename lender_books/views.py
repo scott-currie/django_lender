@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
-
 from .models import Book
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def book_detail_view(request, pk=None):
     """Handle requests on /book/<id> and display a specific book.
 
@@ -15,6 +16,7 @@ def book_detail_view(request, pk=None):
     return render(request, 'books/book_detail.html', context)
 
 
+@login_required
 def book_list_view(request):
     """Handle requests on /book and display all books.
 
