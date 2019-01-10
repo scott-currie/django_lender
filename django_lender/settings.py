@@ -132,3 +132,11 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 IMAGE_DIR = 'images'
+
+
+LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
