@@ -8,8 +8,9 @@ omit =
     */__init__.py
     */manage.py
     */wsgi.py
+    */tests.py
 
-source = */.
+source = .
 
 [report]
 show_missing = True
