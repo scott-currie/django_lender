@@ -5,6 +5,7 @@ from django_lender.views import home_view
 from .views import book_detail_view, book_list_view
 from django.contrib.auth.models import User
 
+
 class TestBookModel(TestCase):
     """Test class for running tests on Book objects.
     """
@@ -45,7 +46,8 @@ class TestBookViews(TestCase):
     def setUp(self):
         """Run some setup for tests that follow."""
         self.request = RequestFactory()
-        self.test_user = User.objects.create_user('tester', 'tester@test.com', 'test321')
+        self.test_user = User.objects.create_user(
+            'tester', 'tester@test.com', 'test321')
         american_gods = {
             'cover_image': '',
             'title': "American Gods",
@@ -105,7 +107,8 @@ class TestHomeView(TestCase):
     def setUp(self):
         """Do some setup for following tests."""
         self.request = RequestFactory()
-        self.test_user = User.objects.create_user('tester', 'tester@test.com', 'test321')
+        self.test_user = User.objects.create_user(
+            'tester', 'tester@test.com', 'test321')
 
     def test_home_view_status_code(self):
         """Check status code on home_view."""
