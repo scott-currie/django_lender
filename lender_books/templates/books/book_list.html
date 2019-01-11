@@ -1,14 +1,22 @@
 {% extends "generic/base.html" %}
 
-{% block title %}<title>Book List</title>{% endblock title %}
+{% block title %}<title>My Books</title>{% endblock title %}
 
 {% block content %}
-<h2>Books</h2>
+<h2>My Books</h2>
 <div class="book_list">
   {% for book in books %}
+  {% if book.user.id == user.id %}
+  <img src="{{ book.cover_image }}">
   <a href="{% url "book_detail" pk=book.id %}">{{book.title }}</a>
-  <p>{{book.author}}</p>
-  <p>{{book.status}}</p>
+  <p>Author: {{book.author}}</p>
+  {% if not book.last_borrowed %}
+  <p>Last borrowed: Never</p>
+  {% else %}
+  <p>Last borrowed: {{book.last_borrowed}}</p>
+  {% endif %}
+  <p>Status: {{ book.status|title }}</p>
+  {% endif %}
   {% endfor %}
 </div>
 {% endblock content %}

@@ -131,4 +131,5 @@ auth.json
 auth.json
 src/static/uploads/*
 src/test/test_uploads/*
-*/migrations/
+*/migrations/*
+media/images/*
