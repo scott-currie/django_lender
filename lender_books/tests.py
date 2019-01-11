@@ -105,26 +105,26 @@ class TestBookViews(TestCase):
         self.assertIn(b'<h3>American Gods</h3>', response.content)
 
 
-# class TestHomeView(TestCase):
-#     """Class to test generic views.
-#     """
-#
-#     def setUp(self):
-#         """Do some setup for following tests."""
-#         self.request = RequestFactory()
-#         self.test_user = User.objects.create_user(
-#             'tester', 'tester@test.com', 'test321')
-#
-#     def test_home_view_status_code(self):
-#         """Check status code on home_view."""
-#         request = self.request.get('')
-#         request.user = self.test_user
-#         response = home_view(request)
-#         self.assertEqual(response.status_code, 200)
-#
-#     def test_home_view_content(self):
-#         """Check expected HTML in response from home_view."""
-#         request = self.request.get('')
-#         request.user = self.test_user
-#         response = home_view(request)
-#         self.assertIn(b'Welcome to Book Lender', response.content)
+class TestHomeView(TestCase):
+    """Class to test generic views.
+    """
+
+    def setUp(self):
+        """Do some setup for following tests."""
+        self.request = RequestFactory()
+        self.test_user = User.objects.create_user(
+            'tester', 'tester@test.com', 'test321')
+
+    def test_home_view_status_code(self):
+        """Check status code on home_view."""
+        request = self.request.get('')
+        request.user = self.test_user
+        response = home_view(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_home_view_content(self):
+        """Check expected HTML in response from home_view."""
+        request = self.request.get('')
+        request.user = self.test_user
+        response = home_view(request)
+        self.assertIn(b'Welcome to Book Lender', response.content)
