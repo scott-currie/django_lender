@@ -12,7 +12,8 @@ def book_detail_view(request, pk=None):
     :return: render the book detail template
     """
     context = {
-        'book': get_object_or_404(Book, id=pk)
+        # 'book': get_object_or_404(Book, id=pk)
+        'book': Book.objects.get(id=pk)
     }
     return render(request, 'books/book_detail.html', context)
 
@@ -25,6 +26,7 @@ def book_list_view(request):
     :return: render the book detail template
     """
     context = {
-        'books': get_list_or_404(Book)
+        # 'books': get_list_or_404(Book)
+        'books': Book.objects.all()
     }
     return render(request, 'books/book_list.html', context)
