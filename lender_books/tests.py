@@ -85,8 +85,8 @@ class TestBookViews(TestCase):
         request = self.request.get('')
         request.user = self.test_user
         response = book_list_view(request)
-        self.assertIn(b'<h2>Books</h2>', response.content)
-        self.assertIn(b'<p>Neil Gaiman</p>', response.content)
+        self.assertIn(b'<h2>My Books</h2>', response.content)
+        self.assertIn(b'<p>Author: Neil Gaiman</p>', response.content)
 
     def test_book_detail_view_status_code(self):
         """Test book_detail_view."""
